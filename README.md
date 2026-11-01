@@ -148,7 +148,7 @@ npm run seed
 npm start
 ```
 
-Open your browser at **[http://localhost:5000](http://localhost:5000)**.
+Open your browser at **[http://localhost:3000](http://localhost:3000)**.
 
 ---
 
@@ -191,7 +191,7 @@ docker-compose up -d --build
 docker-compose logs -f
 ```
 
-Accessible at `http://localhost:5000`.
+Accessible at `http://localhost:3000`.
 
 ---
 

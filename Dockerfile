@@ -13,9 +13,9 @@ COPY . .
 # Seed initial database on first run
 RUN node scripts/seed.js
 
-EXPOSE 5000
+EXPOSE 3000
 
 ENV NODE_ENV=production
-ENV PORT=5000
+ENV PORT=3000
 
 CMD ["node", "server.js"]
