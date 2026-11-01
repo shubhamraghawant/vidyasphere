@@ -1,0 +1,37 @@
+{
+  "name": "vidyasphere",
+  "version": "1.0.0",
+  "description": "Enterprise-grade modern School & Sanstha Management System inspired by Janata Shikshan Sanstha Pune (jsspune.in)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node scripts/seed.js",
+    "test": "NODE_ENV=test node --test tests/api.test.js"
+  },
+  "keywords": [
+    "school-management-system",
+    "jss-pune",
+    "vidyasphere",
+    "education-erp",
+    "admissions-portal",
+    "fees-management",
+    "attendance",
+    "gradebook"
+  ],
+  "author": "Shubham Raghawant <shubhamraghawant@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "supertest": "^7.0.0"
+  }
+}

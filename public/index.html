@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vidyasphere — Janata Shikshan Sanstha, Pune | School Management System</title>
+
+  <!-- Google Fonts: Poppins, Rubik, Noto Sans Devanagari (Matching jsspune.in) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons & Chart.js & Confetti CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col pb-20">
+
+  <!-- ========================================================================= -->
+  <!-- Top Utility Bar (Matching jsspune.in Header)                              -->
+  <!-- ========================================================================= -->
+  <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center gap-4">
+        <span class="flex items-center gap-1.5 text-amber-400 font-medium">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+          Dapodi, Pune - 411012, Maharashtra
+        </span>
+        <span class="hidden md:inline text-slate-600">|</span>
+        <span class="hidden md:flex items-center gap-1.5 text-slate-300">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+          jsspune1952@gmail.com
+        </span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="tel:+919922277322" class="flex items-center gap-1 text-slate-300 hover:text-white transition">
+          <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-400"></i>
+          +91 99222 77322
+        </a>
+        <button id="btn-lang-toggle" class="bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2.5 py-1 rounded text-xs transition border border-slate-700 flex items-center gap-1">
+          🌐 मराठी
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- Main Header Navigation                                                    -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-40 glass-header border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-950 via-blue-900 to-amber-600 text-white flex items-center justify-center font-bold text-xl shadow-md border border-blue-900">
+          JSS
+        </div>
+        <div>
+          <span class="block text-lg font-extrabold text-blue-950 leading-tight" data-i18n="sanstha_name">
+            Janata Shikshan Sanstha, Pune
+          </span>
+          <span class="block text-[11px] font-medium text-amber-700 tracking-wide" data-i18n="sanstha_sub">
+            Est. 1952 | Tradition of Quality Education, Bright Future
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-700">
+        <a href="#section-home" class="hover:text-blue-900 transition" data-i18n="nav_home">Home</a>
+        <a href="#section-founders" class="hover:text-blue-900 transition" data-i18n="nav_about">Founders</a>
+        <a href="#section-institutions" class="hover:text-blue-900 transition" data-i18n="nav_schools">Schools & Colleges</a>
+        <a href="#section-admissions" class="hover:text-blue-900 transition text-amber-700" data-i18n="nav_admissions">Admissions 2026-27</a>
+        <a href="#section-notices" class="hover:text-blue-900 transition" data-i18n="nav_notices">Notices</a>
+        <a href="#section-contact" class="hover:text-blue-900 transition" data-i18n="nav_contact">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button onclick="switchRole('superadmin')" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-950 hover:bg-blue-900 text-white text-xs font-semibold shadow-sm transition">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400"></i>
+          Sanstha ERP Login
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- Main Content Container: Public View OR Role Dashboard View                -->
+  <!-- ========================================================================= -->
+  <main class="flex-1">
+
+    <!-- VIEW 1: PUBLIC SANSTHA PORTAL -->
+    <div id="view-public" class="space-y-16">
+
+      <!-- 1. HERO SECTION -->
+      <section id="section-home" class="hero-gradient pt-12 pb-16 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 space-y-6">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold border border-amber-200">
+                <span>⭐</span>
+                <span data-i18n="tagline_badge">74 Years of Educational Excellence</span>
+              </div>
+              <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-[1.15]" data-i18n="hero_title">
+                Empowering Generations Through Holistic Education
+              </h1>
+              <p class="text-base text-slate-600 leading-relaxed" data-i18n="hero_desc">
+                Janata Shikshan Sanstha (JSS Pune), founded in 1952 by visionary educationists, operates 18 premier schools and colleges across Pune and Maharashtra, nurturing over 12,500 students with values, science, and character.
+              </p>
+              <div class="flex flex-wrap gap-4 pt-2">
+                <a href="#section-admissions" class="px-6 py-3.5 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl text-sm shadow-md transition flex items-center gap-2">
+                  <span data-i18n="cta_apply">Apply for Admission</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#section-institutions" class="px-6 py-3.5 bg-white hover:bg-slate-50 text-slate-800 font-bold rounded-xl text-sm border border-slate-300 shadow-sm transition" data-i18n="cta_explore">
+                  Explore Branches
+                </a>
+              </div>
+
+              <!-- Stats Pill Strip -->
+              <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200">
+                <div>
+                  <div class="text-2xl sm:text-3xl font-extrabold text-blue-900" id="stat-students">12,500+</div>
+                  <div class="text-xs text-slate-500 font-medium" data-i18n="kpi_students">Students Enrolled</div>
+                </div>
+                <div>
+                  <div class="text-2xl sm:text-3xl font-extrabold text-amber-600" id="stat-faculty">480+</div>
+                  <div class="text-xs text-slate-500 font-medium" data-i18n="kpi_faculty">Qualified Educators</div>
+                </div>
+                <div>
+                  <div class="text-2xl sm:text-3xl font-extrabold text-emerald-700" id="stat-institutions">18</div>
+                  <div class="text-xs text-slate-500 font-medium" data-i18n="kpi_institutions">Schools & Colleges</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Campus Graphic / Image -->
+            <div class="lg:col-span-5 relative">
+              <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 relative">
+                <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=900&q=85" alt="JSS Pune Campus" class="w-full h-96 object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-white">
+                  <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Swami Vivekanand Campus, Dapodi</span>
+                  <h3 class="text-lg font-bold">Smart Classrooms & Science Laboratories</h3>
+                  <p class="text-xs text-slate-300 mt-1">Holistic infrastructure nurturing national rank holders & athletes since 1952.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. FOUNDERS & LEGACY (From jsspune.in) -->
+      <section id="section-founders" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Heritage & Legacy</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 mt-1" data-i18n="founders_title">Our Visionary Founders</h2>
+          <p class="text-sm text-slate-600 mt-2" data-i18n="founders_desc">Saluting the torchbearers who laid the foundation of affordable, inclusive education for all sections of society in Pune.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Founder 1 -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center">
+            <div class="w-24 h-24 rounded-full bg-slate-200 mx-auto mb-4 overflow-hidden border-2 border-amber-500 shadow-inner">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80" alt="Baburao Ganpatrao Jagtap" class="w-full h-full object-cover filter grayscale contrast-125" />
+            </div>
+            <h4 class="text-base font-bold text-slate-900" data-i18n="founder_1_name">Baburao Ganpatrao Jagtap</h4>
+            <div class="text-xs font-semibold text-amber-700 mt-0.5" data-i18n="founder_1_role">Pioneering Visionary & Social Reformer</div>
+            <p class="text-xs text-slate-500 mt-3 leading-relaxed">Dedicated his life to opening educational institutions for workers and farmer communities in Pune and suburban industrial belts.</p>
+          </div>
+
+          <!-- Founder 2 -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center">
+            <div class="w-24 h-24 rounded-full bg-slate-200 mx-auto mb-4 overflow-hidden border-2 border-blue-900 shadow-inner">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80" alt="Jaywantrao Jagtap" class="w-full h-full object-cover filter grayscale contrast-125" />
+            </div>
+            <h4 class="text-base font-bold text-slate-900" data-i18n="founder_2_name">Jaywantrao (Dadasaheb) B. Jagtap</h4>
+            <div class="text-xs font-semibold text-blue-800 mt-0.5" data-i18n="founder_2_role">Former President & Institution Builder</div>
+            <p class="text-xs text-slate-500 mt-3 leading-relaxed">Expanded the Sanstha across Chakan, Hinjawadi, Aundh, and Jejuri, setting up junior and senior colleges.</p>
+          </div>
+
+          <!-- Founder 3 -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center">
+            <div class="w-24 h-24 rounded-full bg-slate-200 mx-auto mb-4 overflow-hidden border-2 border-amber-500 shadow-inner">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&q=80" alt="Jayantibai Jagtap" class="w-full h-full object-cover filter grayscale contrast-125" />
+            </div>
+            <h4 class="text-base font-bold text-slate-900" data-i18n="founder_3_name">Jayantibai (Maisaheb) J. Jagtap</h4>
+            <div class="text-xs font-semibold text-amber-700 mt-0.5" data-i18n="founder_3_role">Promoter of Girls' Education</div>
+            <p class="text-xs text-slate-500 mt-3 leading-relaxed">Championed female literacy and co-curricular programs, establishing primary and secondary schools for girls.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. INSTITUTIONS & CAMPUSES DIRECTORY -->
+      <section id="section-institutions" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
+          <div>
+            <span class="text-xs font-bold text-blue-900 uppercase tracking-wider">Multi-Campus Network</span>
+            <h2 class="text-3xl font-extrabold text-slate-900 mt-1" data-i18n="branches_title">Institutions & Academic Campuses</h2>
+            <p class="text-sm text-slate-600 mt-1" data-i18n="branches_desc">From preschool to postgraduate colleges, offering education in Marathi, Semi-English, and English mediums.</p>
+          </div>
+
+          <!-- Category Filter Tabs -->
+          <div class="flex flex-wrap gap-2 p-1 bg-slate-200/80 rounded-xl text-xs font-semibold">
+            <button onclick="filterInstitutions('all')" id="tab-all" class="filter-tab px-3 py-1.5 rounded-lg bg-blue-900 text-white transition" data-i18n="filter_all">All</button>
+            <button onclick="filterInstitutions('primary_marathi')" id="tab-primary_marathi" class="filter-tab px-3 py-1.5 rounded-lg bg-white text-slate-600 transition" data-i18n="filter_primary_marathi">Primary Marathi</button>
+            <button onclick="filterInstitutions('primary_english')" id="tab-primary_english" class="filter-tab px-3 py-1.5 rounded-lg bg-white text-slate-600 transition" data-i18n="filter_primary_english">English Medium</button>
+            <button onclick="filterInstitutions('secondary_marathi')" id="tab-secondary_marathi" class="filter-tab px-3 py-1.5 rounded-lg bg-white text-slate-600 transition" data-i18n="filter_secondary_marathi">Secondary / Jr. College</button>
+            <button onclick="filterInstitutions('senior_college')" id="tab-senior_college" class="filter-tab px-3 py-1.5 rounded-lg bg-white text-slate-600 transition" data-i18n="filter_senior_college">Degree College</button>
+          </div>
+        </div>
+
+        <!-- Institutions Grid -->
+        <div id="institutions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- 4. ONLINE ADMISSIONS & APPLICATION TRACKER -->
+      <section id="section-admissions" class="bg-blue-950 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Admissions Portal</span>
+            <h2 class="text-3xl font-extrabold text-white mt-1" data-i18n="admissions_title">Online Admissions 2026-2027</h2>
+            <p class="text-sm text-blue-200 mt-2" data-i18n="admissions_desc">Submit your online admission application or track your application status in real-time.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Admission Form (7 Cols) -->
+            <div class="lg:col-span-7 bg-white text-slate-900 p-8 rounded-3xl shadow-xl">
+              <h3 class="text-lg font-bold text-blue-950 mb-1">Online Admission Application</h3>
+              <p class="text-xs text-slate-500 mb-6">Fill in candidate details to apply for kindergarten, primary, secondary or junior college.</p>
+
+              <form id="form-admission" class="space-y-4 text-xs">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Target JSS Campus *</label>
+                  <select name="institution_id" id="input-admission-inst" required class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none">
+                    <!-- Populated dynamically -->
+                  </select>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Student Full Name *</label>
+                    <input type="text" name="applicant_name" required placeholder="e.g. Omkar Ramesh Shinde" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" />
+                  </div>
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Applying for Grade / Class *</label>
+                    <select name="applying_for_class" required class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none">
+                      <option value="Class 1">Class 1</option>
+                      <option value="Class 5">Class 5</option>
+                      <option value="Class 8">Class 8</option>
+                      <option value="Class 9">Class 9</option>
+                      <option value="Class 11 Science">Class 11 (Science)</option>
+                      <option value="Class 11 Commerce">Class 11 (Commerce)</option>
+                      <option value="Class 11 Arts">Class 11 (Arts)</option>
+                      <option value="F.Y. B.Com">F.Y. B.Com (College)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Parent / Guardian Name *</label>
+                    <input type="text" name="parent_name" required placeholder="e.g. Ramesh Shinde" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" />
+                  </div>
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Contact Mobile Number *</label>
+                    <input type="tel" name="parent_phone" required placeholder="e.g. +91 98765 43210" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Date of Birth</label>
+                    <input type="date" name="dob" value="2012-05-20" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" />
+                  </div>
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Gender</label>
+                    <select name="gender" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none">
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Email (Optional)</label>
+                    <input type="email" name="parent_email" placeholder="parent@gmail.com" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Residential Address</label>
+                  <input type="text" name="address" placeholder="Flat No., Area, City, Pincode" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" />
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Previous School / College Attended</label>
+                  <input type="text" name="previous_school" placeholder="e.g. Z.P. Primary School, Chakan" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" />
+                </div>
+
+                <div class="pt-2">
+                  <button type="submit" class="w-full py-3.5 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2">
+                    <span>Submit Admission Application</span>
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Application Tracker Box (5 Cols) -->
+            <div class="lg:col-span-5 space-y-6">
+              <div class="bg-blue-900/60 border border-blue-800/80 p-8 rounded-3xl backdrop-blur-md">
+                <div class="flex items-center gap-3 mb-2">
+                  <i data-lucide="search" class="w-5 h-5 text-amber-400"></i>
+                  <h3 class="text-lg font-bold text-white">Track Application Status</h3>
+                </div>
+                <p class="text-xs text-blue-200 mb-6">Enter your 12-digit application reference code (e.g. <code>JSS-2026-081</code>) to check document verification and approval progress.</p>
+
+                <form id="form-tracker" class="space-y-4">
+                  <div class="relative">
+                    <input type="text" id="input-track-no" required placeholder="Enter Application No. (e.g. JSS-2026-081)" class="w-full p-3.5 bg-slate-900/80 border border-blue-700 rounded-xl text-white text-xs font-mono tracking-wider focus:outline-none focus:ring-2 focus:ring-amber-400 uppercase" />
+                  </div>
+                  <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl text-xs transition shadow-sm">
+                    Track Status Now
+                  </button>
+                </form>
+
+                <div id="track-result" class="mt-6 hidden">
+                  <!-- Result inserted dynamically -->
+                </div>
+              </div>
+
+              <!-- Quick Info Card -->
+              <div class="bg-slate-900/40 border border-blue-900 p-6 rounded-2xl text-xs text-blue-200 space-y-2">
+                <div class="font-bold text-white flex items-center gap-2">
+                  <i data-lucide="info" class="w-4 h-4 text-amber-400"></i>
+                  Admission Helpline & Verification
+                </div>
+                <p>For document submission (Birth Certificate, Transfer Certificate, Caste Certificate, Aadhaar Card), parents may visit their respective school branch clerk desk between 10:00 AM and 4:00 PM.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. NOTICES & CIRCULARS (Bilingual from jsspune.in) -->
+      <section id="section-notices" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Official Updates</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 mt-1" data-i18n="notices_title">Announcements & Official Circulars</h2>
+          <p class="text-sm text-slate-600 mt-2" data-i18n="notices_desc">Stay updated with academic schedules, board examination updates, and sports events.</p>
+        </div>
+
+        <div id="notices-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- 6. CONTACT & CENTRAL OFFICE -->
+      <section id="section-contact" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 sm:p-12">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+              <span class="text-xs font-bold text-blue-900 uppercase tracking-wider">Get in Touch</span>
+              <h2 class="text-2xl font-extrabold text-slate-900 mt-1" data-i18n="contact_title">Contact Sanstha Headquarters</h2>
+              <p class="text-xs text-slate-500 mt-2" data-i18n="contact_address">Swami Vivekanand Vidyamandir Campus, ST Workshop Road, Dapodi, Pune - 411012, Maharashtra</p>
+
+              <div class="space-y-4 mt-8 text-xs text-slate-600">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-900 flex items-center justify-center font-bold">📞</div>
+                  <div>
+                    <div class="font-bold text-slate-900">Phone Numbers:</div>
+                    <div>+91 99222 77322 / +91 98501 24211</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-900 flex items-center justify-center font-bold">✉️</div>
+                  <div>
+                    <div class="font-bold text-slate-900">Email Address:</div>
+                    <div>jsspune1952@gmail.com</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-900 flex items-center justify-center font-bold">⏰</div>
+                  <div>
+                    <div class="font-bold text-slate-900">Working Hours:</div>
+                    <div>Monday to Saturday: 09:30 AM – 05:30 PM</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div>
+              <form id="form-contact" class="space-y-4 text-xs">
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Your Name *</label>
+                    <input type="text" name="name" required placeholder="Full Name" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-900" />
+                  </div>
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Contact Phone</label>
+                    <input type="tel" name="phone" placeholder="+91 98765 43210" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-900" />
+                  </div>
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Email Address *</label>
+                  <input type="email" name="email" required placeholder="you@gmail.com" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-900" />
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Subject *</label>
+                  <input type="text" name="subject" required placeholder="e.g. Admission / Transfer Certificate / Inquiry" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-900" />
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Message *</label>
+                  <textarea name="message" rows="3" required placeholder="Please write your query..." class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-900"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-blue-950 hover:bg-blue-900 text-white font-bold rounded-xl transition shadow-sm">
+                  Send Message to Sanstha Office
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- VIEW 2: ROLE-BASED APPLICATION DASHBOARD -->
+    <div id="view-dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 hidden">
+      <div id="dashboard-content">
+        <!-- Rendered dynamically by switchRole() -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- Floating 1-Click Role Switcher Demo Bar (For Pair Evaluation)             -->
+  <!-- ========================================================================= -->
+  <div class="fixed bottom-3 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+    <div class="demo-role-bar text-white px-4 py-2.5 rounded-2xl flex flex-wrap items-center gap-2 pointer-events-auto border border-slate-700/80 shadow-2xl">
+      <span class="text-xs font-extrabold text-amber-400 mr-1 flex items-center gap-1.5" data-i18n="role_demo_label">
+        <span>⚡</span> Quick Role Demo:
+      </span>
+      <button onclick="switchRole('public')" id="pill-public" class="demo-pill px-3 py-1.5 rounded-xl text-xs bg-amber-500 text-slate-900 font-bold transition hover:opacity-90">
+        🌐 Public Portal
+      </button>
+      <button onclick="switchRole('superadmin')" id="pill-superadmin" class="demo-pill px-3 py-1.5 rounded-xl text-xs bg-slate-800 text-slate-300 font-medium transition hover:bg-slate-700">
+        🏛️ Superadmin (Sanstha)
+      </button>
+      <button onclick="switchRole('teacher')" id="pill-teacher" class="demo-pill px-3 py-1.5 rounded-xl text-xs bg-slate-800 text-slate-300 font-medium transition hover:bg-slate-700">
+        👨‍🏫 Teacher Desk
+      </button>
+      <button onclick="switchRole('student')" id="pill-student" class="demo-pill px-3 py-1.5 rounded-xl text-xs bg-slate-800 text-slate-300 font-medium transition hover:bg-slate-700">
+        🎓 Student & Parent
+      </button>
+      <button onclick="switchRole('clerk')" id="pill-clerk" class="demo-pill px-3 py-1.5 rounded-xl text-xs bg-slate-800 text-slate-300 font-medium transition hover:bg-slate-700">
+        💳 Fee Clerk Desk
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-24 right-4 z-50 flex flex-col gap-2 max-w-sm"></div>
+
+  <!-- Modal: Institution Details -->
+  <div id="modal-inst-details" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+        <h4 id="modal-inst-title" class="text-base font-bold text-slate-900">Institution Details</h4>
+        <button onclick="closeModal('modal-inst-details')" class="text-slate-400 hover:text-slate-600 font-bold text-lg">&times;</button>
+      </div>
+      <div id="modal-inst-content"></div>
+    </div>
+  </div>
+
+  <!-- Modal: Admission Success -->
+  <div id="modal-app-success" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+        ✓
+      </div>
+      <h3 class="text-xl font-bold text-slate-900">Application Submitted!</h3>
+      <p class="text-xs text-slate-500 mt-2">
+        Thank you, your application for <strong id="success-applicant-name" class="text-slate-800">Candidate</strong> has been received by Janata Shikshan Sanstha.
+      </p>
+
+      <div class="my-6 p-4 bg-blue-50 border border-blue-200 rounded-2xl">
+        <span class="text-[11px] font-bold text-blue-800 tracking-wider uppercase">Your Tracking Reference Code</span>
+        <div id="success-app-no" class="text-2xl font-mono font-extrabold text-blue-950 mt-1 select-all">JSS-2026-XXXX</div>
+      </div>
+
+      <p class="text-[11px] text-slate-400 mb-6">Please save this code to check verification and admission approval status anytime on the tracking desk.</p>
+      <button onclick="closeSuccessModal()" class="w-full py-3 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl text-xs transition">
+        Done
+      </button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/i18n.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
