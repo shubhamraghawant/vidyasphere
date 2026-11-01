@@ -101,6 +101,7 @@ test('Vidyasphere End-to-End API Test Suite', async (t) => {
     authToken = res.body.token;
   });
 
+  let firstStudentId = 1;
   await t.test('GET /api/students returns student roster with fee and attendance stats', async () => {
     const res = await request(app)
       .get('/api/students')
@@ -109,11 +110,12 @@ test('Vidyasphere End-to-End API Test Suite', async (t) => {
     assert.strictEqual(res.body.success, true);
     assert.ok(res.body.data.length > 0);
     assert.ok('attendance_percentage' in res.body.data[0]);
+    firstStudentId = res.body.data[0].id;
   });
 
-  await t.test('GET /api/grades/report-card/1 returns comprehensive academic marksheet', async () => {
+  await t.test('GET /api/grades/report-card returns comprehensive academic marksheet', async () => {
     const res = await request(app)
-      .get('/api/grades/report-card/1')
+      .get(`/api/grades/report-card/${firstStudentId}`)
       .set('Authorization', `Bearer ${authToken}`);
     assert.strictEqual(res.statusCode, 200);
     assert.strictEqual(res.body.success, true);
@@ -124,7 +126,7 @@ test('Vidyasphere End-to-End API Test Suite', async (t) => {
 
   await t.test('POST /api/fees/collect processes fee payment and generates receipt', async () => {
     const payload = {
-      student_id: 1,
+      student_id: firstStudentId,
       fee_type: 'Computer & Science Lab Fee',
       amount: 2500,
       payment_method: 'UPI',

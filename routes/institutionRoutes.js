@@ -93,3 +93,4 @@ router.post('/', authenticate, authorize(['superadmin']), async (req, res, next)
 });
 
 module.exports = router;
+

@@ -65,3 +65,4 @@ router.post('/', authenticate, authorize(['superadmin', 'branch_admin']), async 
 });
 
 module.exports = router;
+

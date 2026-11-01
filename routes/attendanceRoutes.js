@@ -72,3 +72,4 @@ router.post('/batch', authenticate, authorize(['superadmin', 'branch_admin', 'te
 });
 
 module.exports = router;
+

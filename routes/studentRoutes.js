@@ -165,3 +165,4 @@ router.post('/', authenticate, authorize(['superadmin', 'branch_admin', 'clerk']
 });
 
 module.exports = router;
+

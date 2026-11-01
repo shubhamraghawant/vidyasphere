@@ -1,84 +1,115 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Rubik:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #1e3a8a; /* JSS Pune Royal Blue */
-  --primary-accent: #b45309; /* Saffron Gold */
-  --maroon: #881337;
+  --canvas: #fcfbf9;
+  --surface: #ffffff;
+  --text-main: #1c2229;
+  --text-muted: #576472;
+  --text-light: #8995a2;
+  --border-subtle: #eae7e1;
+  --border-card: #e4e0d7;
+  
+  /* Pastel Accent Tokens */
+  --pastel-sage-bg: #edf3ee;
+  --pastel-sage-text: #2f523e;
+  --pastel-sage-border: #d4e2d6;
+
+  --pastel-sand-bg: #f6f0e7;
+  --pastel-sand-text: #705335;
+  --pastel-sand-border: #e6dac8;
+
+  --pastel-slate-bg: #eef2f7;
+  --pastel-slate-text: #2d425c;
+  --pastel-slate-border: #d5dfea;
+
+  --pastel-rose-bg: #faeee9;
+  --pastel-rose-text: #8c4735;
+  --pastel-rose-border: #eed5cc;
+
+  --primary-navy: #182b42;
+  --accent-gold: #9c783e;
 }
 
 body {
-  font-family: 'Poppins', 'Noto Sans Devanagari', -apple-system, sans-serif;
-  color: #1e293b;
-  background-color: #f8fafc;
-  overflow-x: hidden;
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, sans-serif;
+  color: var(--text-main);
+  background-color: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom smooth scrolling */
-html {
-  scroll-behavior: smooth;
+.font-serif {
+  font-family: 'Newsreader', Georgia, serif;
 }
 
-/* Glassmorphism Navigation */
-.glass-header {
-  background: rgba(255, 255, 255, 0.95);
+/* World-class University Header Glassmorphism */
+.univ-header {
+  background: rgba(252, 251, 249, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Subtle Cards */
+.minimal-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.minimal-card:hover {
+  transform: translateY(-3px);
+  border-color: #d8d3c8;
+  box-shadow: 0 16px 32px -8px rgba(24, 43, 66, 0.05), 0 4px 12px -2px rgba(24, 43, 66, 0.02);
+}
+
+/* Pastel Badge Tags */
+.pastel-tag-sage {
+  background-color: var(--pastel-sage-bg);
+  color: var(--pastel-sage-text);
+  border: 1px solid var(--pastel-sage-border);
+}
+
+.pastel-tag-sand {
+  background-color: var(--pastel-sand-bg);
+  color: var(--pastel-sand-text);
+  border: 1px solid var(--pastel-sand-border);
+}
+
+.pastel-tag-slate {
+  background-color: var(--pastel-slate-bg);
+  color: var(--pastel-slate-text);
+  border: 1px solid var(--pastel-slate-border);
+}
+
+.pastel-tag-rose {
+  background-color: var(--pastel-rose-bg);
+  color: var(--pastel-rose-text);
+  border: 1px solid var(--pastel-rose-border);
+}
+
+/* Floating Bottom Role Bar (Subtle Frosted Glass) */
+.role-bar-glass {
+  background: rgba(24, 43, 66, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-}
-
-/* Hero Gradient */
-.hero-gradient {
-  background: radial-gradient(circle at 80% 20%, rgba(30, 58, 138, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
-              #ffffff;
-}
-
-/* Custom Card Hover */
-.branch-card {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.branch-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px -6px rgba(30, 58, 138, 0.12), 0 8px 12px -4px rgba(30, 58, 138, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.35);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--canvas);
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: #d4cfc5;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* Floating Role Switcher Pill */
-.demo-role-bar {
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-}
-
-/* Badge styles */
-.badge-gold {
-  background: #fef3c7;
-  color: #92400e;
-  border: 1px solid #fde68a;
-}
-
-.badge-blue {
-  background: #dbeafe;
-  color: #1e40af;
-  border: 1px solid #bfdbfe;
-}
-
-.badge-green {
-  background: #d1fae5;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
+  background: #b5ada0;
 }

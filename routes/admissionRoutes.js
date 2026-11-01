@@ -136,3 +136,4 @@ router.patch('/:id/status', authenticate, authorize(['superadmin', 'branch_admin
 });
 
 module.exports = router;
+

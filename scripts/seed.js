@@ -18,6 +18,11 @@ const seed = async () => {
   await run('DELETE FROM classes');
   await run('DELETE FROM institutions');
   await run('DELETE FROM users');
+  try {
+    await run('DELETE FROM sqlite_sequence');
+  } catch (e) {
+    // sqlite_sequence may not exist yet
+  }
 
   const passwordHash = await bcrypt.hash('Password@123', 10);
 
@@ -482,3 +487,4 @@ if (require.main === module) {
 }
 
 module.exports = seed;
+

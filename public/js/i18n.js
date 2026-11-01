@@ -128,3 +128,4 @@ function setLanguage(lang) {
     langBtn.innerHTML = lang === 'mr' ? '🌐 English' : '🌐 मराठी';
   }
 }
+

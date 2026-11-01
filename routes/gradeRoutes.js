@@ -87,3 +87,4 @@ router.post('/entry', authenticate, authorize(['superadmin', 'branch_admin', 'te
 });
 
 module.exports = router;
+

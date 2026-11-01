@@ -135,3 +135,4 @@ router.get('/summary', authenticate, authorize(['superadmin', 'branch_admin', 'c
 });
 
 module.exports = router;
+

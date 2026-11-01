@@ -57,14 +57,14 @@ async function switchRole(role) {
 
   // Update active pill styling
   document.querySelectorAll('.demo-pill').forEach(btn => {
-    btn.classList.remove('bg-amber-500', 'text-slate-900', 'font-bold');
-    btn.classList.add('bg-slate-800', 'text-slate-300');
+    btn.classList.remove('bg-[#ebd7b4]', 'text-[#182b42]', 'font-bold');
+    btn.classList.add('bg-[#243954]', 'text-[#d1dce7]');
   });
 
   const activeBtn = document.getElementById(`pill-${role}`);
   if (activeBtn) {
-    activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
-    activeBtn.classList.add('bg-amber-500', 'text-slate-900', 'font-bold');
+    activeBtn.classList.remove('bg-[#243954]', 'text-[#d1dce7]');
+    activeBtn.classList.add('bg-[#ebd7b4]', 'text-[#182b42]', 'font-bold');
   }
 
   if (role === 'public') {
@@ -141,48 +141,54 @@ function renderInstitutionsGrid(institutions) {
   if (!container) return;
 
   if (institutions.length === 0) {
-    container.innerHTML = `<div class="col-span-3 text-center py-12 text-slate-400">No institutions found matching this category.</div>`;
+    container.innerHTML = `<div class="col-span-3 text-center py-12 text-[#8995a2]">No institutions found matching this category.</div>`;
     return;
   }
 
+  const categoryTagClass = (cat) => {
+    if (cat === 'primary_marathi') return 'pastel-tag-sand';
+    if (cat === 'primary_english') return 'pastel-tag-sage';
+    if (cat === 'secondary_marathi') return 'pastel-tag-slate';
+    if (cat === 'senior_college' || cat === 'junior_college') return 'pastel-tag-rose';
+    return 'pastel-tag-sand';
+  };
+
   container.innerHTML = institutions.map(inst => `
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden branch-card flex flex-col justify-between">
-      <div class="relative h-48 overflow-hidden bg-slate-100">
-        <img src="${inst.image_url}" alt="${inst.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
-        <div class="absolute top-3 right-3">
-          <span class="inline-block px-2.5 py-1 text-xs font-semibold rounded-full ${
-            inst.category.includes('college') ? 'bg-indigo-900 text-indigo-100' : 'bg-blue-900 text-blue-100'
-          }">
-            ${inst.category.replace('_', ' ').toUpperCase()}
-          </span>
-        </div>
-        <div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm text-white px-2.5 py-0.5 rounded text-xs font-medium">
-          Est. ${inst.established_year}
-        </div>
-      </div>
-      <div class="p-6 flex-1 flex flex-col justify-between">
-        <div>
-          <div class="text-xs font-bold text-amber-600 mb-1 tracking-wider uppercase">${inst.code}</div>
-          <h3 class="text-lg font-bold text-slate-900 leading-snug mb-2">${inst.name}</h3>
-          <p class="text-xs text-slate-500 mb-4 flex items-center gap-1.5">
-            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
-            ${inst.address}
-          </p>
-          <div class="grid grid-cols-2 gap-2 text-xs py-3 border-y border-slate-100 text-slate-600 mb-4">
-            <div><strong>Medium:</strong> ${inst.medium}</div>
-            <div><strong>Students:</strong> ${inst.total_students.toLocaleString()}</div>
-            <div><strong>Head:</strong> ${inst.principal_name.split(' ')[0]} ${inst.principal_name.split(' ')[1] || ''}</div>
-            <div><strong>Phone:</strong> ${inst.phone}</div>
+    <div class="minimal-card overflow-hidden flex flex-col justify-between">
+      <div>
+        <div class="relative h-44 overflow-hidden bg-[#f4f1eb]">
+          <img src="${inst.image_url}" alt="${inst.name}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+          <div class="absolute top-3 right-3">
+            <span class="inline-block px-2.5 py-0.5 text-[11px] font-semibold rounded-full ${categoryTagClass(inst.category)}">
+              ${inst.category.replace('_', ' ').toUpperCase()}
+            </span>
+          </div>
+          <div class="absolute bottom-3 left-3 bg-[#182b42]/80 backdrop-blur-sm text-white px-2.5 py-0.5 rounded-md text-[10px] font-medium tracking-wide">
+            Est. ${inst.established_year}
           </div>
         </div>
-        <div class="flex gap-2 pt-2">
-          <button onclick="viewInstitutionDetails(${inst.id})" class="flex-1 text-center py-2 px-3 text-xs font-medium rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
-            View Details
-          </button>
-          <button onclick="quickApply(${inst.id})" class="flex-1 text-center py-2 px-3 text-xs font-medium rounded-lg bg-blue-900 text-white hover:bg-blue-800 transition">
-            Apply Now
-          </button>
+        <div class="p-6">
+          <div class="text-[11px] font-semibold text-[#8c6747] mb-1 tracking-wider uppercase">${inst.code}</div>
+          <h3 class="text-base font-serif font-bold text-[#182b42] leading-snug mb-2">${inst.name}</h3>
+          <p class="text-xs text-[#687583] mb-4 flex items-center gap-1.5">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#9c783e]"></i>
+            ${inst.address}
+          </p>
+          <div class="grid grid-cols-2 gap-2 text-xs py-3 border-y border-[#eee9df] text-[#556371] mb-4">
+            <div><strong class="text-[#182b42]">Medium:</strong> ${inst.medium}</div>
+            <div><strong class="text-[#182b42]">Enrolled:</strong> ${inst.total_students.toLocaleString()}</div>
+            <div><strong class="text-[#182b42]">Principal:</strong> ${inst.principal_name.split(' ')[0]} ${inst.principal_name.split(' ')[1] || ''}</div>
+            <div><strong class="text-[#182b42]">Phone:</strong> ${inst.phone}</div>
+          </div>
         </div>
+      </div>
+      <div class="p-6 pt-0 flex gap-2">
+        <button onclick="viewInstitutionDetails(${inst.id})" class="flex-1 text-center py-2 px-3 text-xs font-semibold rounded-xl border border-[#ded8cc] bg-white text-[#182b42] hover:bg-[#faf9f7] transition">
+          View Dossier
+        </button>
+        <button onclick="quickApply(${inst.id})" class="flex-1 text-center py-2 px-3 text-xs font-semibold rounded-xl bg-[#182b42] text-white hover:bg-[#253d5a] transition">
+          Apply Now
+        </button>
       </div>
     </div>
   `).join('');
@@ -192,13 +198,13 @@ function renderInstitutionsGrid(institutions) {
 
 function filterInstitutions(category) {
   document.querySelectorAll('.filter-tab').forEach(btn => {
-    btn.classList.remove('bg-blue-900', 'text-white');
-    btn.classList.add('bg-white', 'text-slate-600');
+    btn.classList.remove('bg-[#182b42]', 'text-white');
+    btn.classList.add('text-[#53606e]');
   });
   const activeBtn = document.getElementById(`tab-${category}`);
   if (activeBtn) {
-    activeBtn.classList.remove('bg-white', 'text-slate-600');
-    activeBtn.classList.add('bg-blue-900', 'text-white');
+    activeBtn.classList.remove('text-[#53606e]');
+    activeBtn.classList.add('bg-[#182b42]', 'text-white');
   }
   loadInstitutions(category);
 }
@@ -223,20 +229,23 @@ async function loadNotices() {
     const container = document.getElementById('notices-list');
     if (!container) return;
 
+    const getNoticeTag = (cat) => {
+      if (cat === 'exam') return 'pastel-tag-rose';
+      if (cat === 'sports') return 'pastel-tag-sage';
+      if (cat === 'circular') return 'pastel-tag-slate';
+      return 'pastel-tag-sand';
+    };
+
     container.innerHTML = allNotices.map(n => `
-      <div class="p-5 rounded-xl border border-slate-200 bg-white hover:border-blue-400 transition shadow-sm ${n.is_pinned ? 'border-l-4 border-l-amber-500' : ''}">
-        <div class="flex items-center justify-between gap-2 mb-2">
-          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${
-            n.category === 'exam' ? 'bg-red-100 text-red-800' :
-            n.category === 'sports' ? 'bg-emerald-100 text-emerald-800' :
-            n.category === 'circular' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
-          }">
+      <div class="minimal-card p-6 bg-white ${n.is_pinned ? 'border-l-4 border-l-[#9c783e]' : ''}">
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${getNoticeTag(n.category)}">
             ${n.category.toUpperCase()}
           </span>
-          <span class="text-xs text-slate-400">${n.published_date}</span>
+          <span class="text-xs text-[#8a95a1] font-medium">${n.published_date}</span>
         </div>
-        <h4 class="text-base font-bold text-slate-900 mb-1.5">${n.display_title}</h4>
-        <p class="text-sm text-slate-600 leading-relaxed">${n.display_content}</p>
+        <h4 class="text-base font-serif font-bold text-[#182b42] mb-1.5 leading-snug">${n.display_title}</h4>
+        <p class="text-xs text-[#556371] leading-relaxed">${n.display_content}</p>
       </div>
     `).join('');
   } catch (err) {
@@ -997,3 +1006,4 @@ function showToast(message, type = 'info') {
     setTimeout(() => toast.remove(), 300);
   }, 3500);
 }
+
